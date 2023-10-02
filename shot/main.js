@@ -57,11 +57,16 @@ cv.onRuntimeInitialized = () => {
                     // Convert the frame to grayscale
                     const gray = new cv.Mat();
                     cv.cvtColor(frame, gray, cv.COLOR_RGBA2GRAY);
+                    
+                    // Blur the image
+                    const blurred = new cv.Mat();
+                    cv.medianBlur(gray, blurred, 3);
+
 
 
                     // Detect circles using HoughCircles
                     cv.HoughCircles(
-                        gray,
+                        blurred,
                         circles,
                         cv.HOUGH_GRADIENT,
                         1,          // dp (inverse ratio of the accumulator resolution to the image resolution)
@@ -153,8 +158,9 @@ cv.onRuntimeInitialized = () => {
                     ctx.fillStyle = 'blue'; // FPS counter color (blue)
                     ctx.fillText(`FPS: ${fps}`, 10, 30);
 
-                    frame.delete(); // Release the frame Mat
-                    gray.delete();  // Release the grayscale Mat
+                    frame.delete();     // Release the frame Mat
+                    gray.delete();      // Release the grayscale Mat
+                    blurred.delete();   // Release the blurred Mat
 
                     // Request the next frame
                     requestAnimationFrame(processVideo);
