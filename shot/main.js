@@ -5,7 +5,7 @@ const ctx = canvasElement.getContext('2d', { willReadFrequently: true });
 async function startCamera() {
     try {
         const stream = await navigator.mediaDevices.getUserMedia({ 
-            audio: true,
+            audio: false,
             video: { width: 320, height: 240, facingMode: { exact: "environment" } }
         });
         videoElement.srcObject = stream;
